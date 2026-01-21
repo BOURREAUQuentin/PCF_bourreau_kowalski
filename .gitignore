@@ -1,0 +1,9 @@
+# Fichiers compilés
+*.class
+out/
+target/
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
