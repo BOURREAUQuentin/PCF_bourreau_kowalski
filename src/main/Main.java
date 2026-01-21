@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import ast.Term;
+import interp.EmptyEnv;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -36,9 +38,10 @@ public class Main {
 
             verbose = true;
         }
-        AST ast = analyze(is);
+        Term term = (Term) analyze(is);
         if (verbose)
-            IO.println("AST: " + ast);
+            IO.println("AST: " + term);
+        IO.println("===> " + term.interp(new EmptyEnv()));
     }
 
     public static AST analyze(InputStream is) throws IOException {

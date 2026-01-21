@@ -1,8 +1,5 @@
 package parser;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import ast.*;
 
 public class ASTVisitor extends PCFBaseVisitor<AST> {
@@ -13,21 +10,63 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
     }
 
     @Override
-    public AST visitBinOp(PCFParser.BinOpContext ctx) {
-        OP op = OP.parseOP(ctx.OP().getText());
-        List<PCFParser.TermContext> ANTLRTerms = ctx.term();
-        List<Term> terms = new ArrayList<>();
-        for (PCFParser.TermContext ANTLRTerm : ANTLRTerms)
-            terms.add((Term) visit(ANTLRTerm));
-        return new BinOp(op, terms.get(0), terms.get(1));
+    public AST visitBinOpExpr(PCFParser.BinOpExprContext ctx) {
+        OP op = OP.parseOP(ctx.OPLast().getText());
+        Term t1 = (Term) visit(ctx.expr());
+        Term t2 = (Term) visit(ctx.factor());
+        return new BinOp(op, t1, t2);
+    }
+
+    @Override
+    public AST visitSimpleExpr(PCFParser.SimpleExprContext ctx) {
+        return visit(ctx.factor());
+    }
+
+    @Override
+    public AST visitBinOpFactor(PCFParser.BinOpFactorContext ctx) {
+        OP op = OP.parseOP(ctx.OPFirst().getText());
+        Term t1 = (Term) visit(ctx.factor());
+        Term t2 = (Term) visit(ctx.atom());
+        return new BinOp(op, t1, t2);
+    }
+
+    @Override
+    public AST visitSimpleFactor(PCFParser.SimpleFactorContext ctx) {
+        return visit(ctx.atom());
+    }
+
+    // --- NOUVEAU POUR PCF BLEU ---
+
+    @Override
+    public AST visitVar(PCFParser.VarContext ctx) {
+        // Crée une feuille Var avec le nom de la variable
+        return new Var(ctx.ID().getText());
+    }
+
+    @Override
+    public AST visitLet(PCFParser.LetContext ctx) {
+        // let ID = term in term
+        String id = ctx.ID().getText();
+        Term definition = (Term) visit(ctx.term(0)); // partie après le =
+        Term body = (Term) visit(ctx.term(1)); // partie après le in
+        return new Let(id, definition, body);
     }
 
     @Override
     public AST visitCond(PCFParser.CondContext ctx) {
-        List<PCFParser.TermContext> ANTLRTerms = ctx.term();
-        List<Term> terms = new ArrayList<>();
-        for (PCFParser.TermContext ANTLRTerm : ANTLRTerms)
-            terms.add((Term) visit(ANTLRTerm));
-        return new Cond(terms.get(0), terms.get(1), terms.get(2));
+        Term test = (Term) visit(ctx.term(0));
+        Term thenBranch = (Term) visit(ctx.term(1));
+        Term elseBranch = (Term) visit(ctx.term(2));
+        return new Cond(test, thenBranch, elseBranch);
+    }
+
+    @Override
+    public AST visitParens(PCFParser.ParensContext ctx) {
+        return visit(ctx.term());
+    }
+
+    @Override
+    public AST visitSimpleTerm(PCFParser.SimpleTermContext ctx) {
+        return visit(ctx.expr());
     }
 }
