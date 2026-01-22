@@ -3,9 +3,9 @@ package interp;
 import ast.Term;
 
 public class Closure implements Value {
-    public String arg; // nom du paramètre (ex: "x")
-    public Term body; // corps de la fonction
-    public Env env; // environnement capturé
+    public String arg;
+    public Term body;
+    public Env env;
 
     public Closure(String arg, Term body, Env env) {
         this.arg = arg;
