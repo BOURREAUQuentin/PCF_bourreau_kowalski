@@ -164,7 +164,7 @@ Résultat : `fix x`
 ### Ifz court + Fix (Lazy)
 
 ```
-ifz 0 1 (fix x x)
+ifz 0 then 1 else (fix x x)
 ```
 Résultat : `1`
 
