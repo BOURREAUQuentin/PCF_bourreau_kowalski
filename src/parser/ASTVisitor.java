@@ -66,4 +66,18 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
     public AST visitSimpleTerm(PCFParser.SimpleTermContext ctx) {
         return visit(ctx.expr());
     }
+
+    @Override
+    public AST visitFun(PCFParser.FunContext ctx) {
+        String arg = ctx.ID().getText();
+        Term body = (Term) visit(ctx.term());
+        return new Fun(arg, body);
+    }
+
+    @Override
+    public AST visitApp(PCFParser.AppContext ctx) {
+        Term fun = (Term) visit(ctx.factor()); // terme à gauche (la fonction)
+        Term arg = (Term) visit(ctx.atom()); // terme à droite (l'argument)
+        return new App(fun, arg);
+    }
 }
