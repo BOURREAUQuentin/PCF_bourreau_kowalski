@@ -10,6 +10,26 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
     }
 
     @Override
+    public AST visitVar(PCFParser.VarContext ctx) {
+        return new Var(ctx.ID().getText());
+    }
+
+    @Override
+    public AST visitParens(PCFParser.ParensContext ctx) {
+        return visit(ctx.term());
+    }
+
+    @Override
+    public AST visitSimpleTerm(PCFParser.SimpleTermContext ctx) {
+        return visit(ctx.expr());
+    }
+
+    @Override
+    public AST visitSimpleExpr(PCFParser.SimpleExprContext ctx) {
+        return visit(ctx.factor());
+    }
+
+    @Override
     public AST visitBinOpExpr(PCFParser.BinOpExprContext ctx) {
         OP op = OP.parseOP(ctx.OPLast().getText());
         Term t1 = (Term) visit(ctx.expr());
@@ -18,8 +38,8 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
     }
 
     @Override
-    public AST visitSimpleExpr(PCFParser.SimpleExprContext ctx) {
-        return visit(ctx.factor());
+    public AST visitSimpleFactor(PCFParser.SimpleFactorContext ctx) {
+        return visit(ctx.atom());
     }
 
     @Override
@@ -31,21 +51,17 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
     }
 
     @Override
-    public AST visitSimpleFactor(PCFParser.SimpleFactorContext ctx) {
-        return visit(ctx.atom());
-    }
-
-    @Override
-    public AST visitVar(PCFParser.VarContext ctx) {
-        return new Var(ctx.ID().getText());
+    public AST visitApp(PCFParser.AppContext ctx) {
+        Term fun = (Term) visit(ctx.factor());
+        Term arg = (Term) visit(ctx.atom());
+        return new App(fun, arg);
     }
 
     @Override
     public AST visitLet(PCFParser.LetContext ctx) {
-        // let ID = term in term
         String id = ctx.ID().getText();
-        Term definition = (Term) visit(ctx.term(0)); // partie après le =
-        Term body = (Term) visit(ctx.term(1)); // partie après le in
+        Term definition = (Term) visit(ctx.term(0));
+        Term body = (Term) visit(ctx.term(1));
         return new Let(id, definition, body);
     }
 
@@ -58,12 +74,9 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
     }
 
     @Override
-    public AST visitParens(PCFParser.ParensContext ctx) {
-        return visit(ctx.term());
-    }
-
-    @Override
-    public AST visitSimpleTerm(PCFParser.SimpleTermContext ctx) {
-        return visit(ctx.expr());
+    public AST visitFun(PCFParser.FunContext ctx) {
+        String arg = ctx.ID().getText();
+        Term body = (Term) visit(ctx.term());
+        return new Fun(arg, body);
     }
 }
