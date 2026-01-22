@@ -65,11 +65,21 @@ Capture du fonctionnement de l'outil Antlr pour PCF Bleu avec l'aperçu de l'arb
 Capture du fonctionnement de l'interpréteur PCF Bleu avec l'évaluation de l'expression de portée des variables :
 ![capture Interpréteur PCF Bleu](captures/bleu/portee_variables.png)
 
+### Conditionnelle avec variable
+
+```
+let cond = ifz 4 - 2 then 3 - 2 * 2 else 2
+in (2 / cond)
+```
+Résultat attendu : `1`.
+
+![img.png](captures/bleu/conditionnelle_variable.png)
+
 ---
 
 ## PCF Rouge
 
-### Test 1 : Fonction simple
+### Fonction simple
 
 ```
 fun x -> 0
@@ -78,16 +88,16 @@ Résultat attendu : `(fun x -> 0)`
 
 ![capture](captures/rouge/fonction_simple.png)
 
-### Test 2 : Addition avec fonction (Parenthèses obligatoires !)
+### Addition avec fonction
 
 ```
-1 + (fun x -> 0)
+1 + fun x -> 0
 ```
 Résultat attendu : `Erreur (ClassCastException) car on ne peut pas additionner 1 (int) et une Closure.`
 
 ![img.png](captures/rouge/addition_avec_fonction.png)
 
-### Test 3 : Identité
+### Identité
 
 ```
 fun x -> x + 1
@@ -96,7 +106,7 @@ Résultat attendu : `(fun x -> x + 1)`
 
 ![img.png](captures/rouge/identite.png)
 
-### Test 4 : Application simple
+### Application simple
 
 ```
 let z = fun x -> 0 in z 1
@@ -105,16 +115,16 @@ Résultat attendu : `0`
 
 ![img.png](captures/rouge/application_simple.png)
 
-### Test 5 : Application fonctionnelle
+### Application fonctionnelle
 
 ```
-let z = fun x -> 0 in z (fun x -> 0)
+let z = fun x -> 0 in z fun x -> 0
 ```
 Résultat attendu : `0`
 
 ![img.png](captures/rouge/application_fonctionnelle.png)
 
-### Test 6 : Incrément
+### Incrément
 
 ```
 let inc = fun x -> x + 1 in inc 1
@@ -123,13 +133,14 @@ Résultat attendu : `2`
 
 ![img.png](captures/rouge/increment.png)
 
-### Test 7 : Currying
+### Currying
 
 ```
 let add = fun x -> fun y -> x + y in let inc = add 1 in inc 2
 ```
 Résultat attendu : `3`
 ![img.png](captures/rouge/currying.png)
+
 ---
 
 FIL A1 - 2025/2026

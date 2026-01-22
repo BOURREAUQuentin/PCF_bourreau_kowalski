@@ -1,9 +1,10 @@
 grammar PCF;
 
+// --- Règles syntaxiques ---
+
 program : term EOF ;
 
 term : LET ID '=' term IN term                   # Let
-     | FUN ID '->' term                          # Fun
      | IFZ term THEN term ELSE term              # Cond
      | expr                                      # SimpleTerm
      ;
@@ -20,8 +21,10 @@ factor : factor atom                             # App
 atom : LIT                                       # Lit
      | ID                                        # Var
      | '(' term ')'                              # Parens
+     | FUN ID '->' term                          # Fun
      ;
 
+// --- Règles lexicales ---
 
 LET  : 'let';
 IN   : 'in';

@@ -24,13 +24,6 @@ public interface PCFVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLet(PCFParser.LetContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Fun}
-	 * labeled alternative in {@link PCFParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFun(PCFParser.FunContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Cond}
 	 * labeled alternative in {@link PCFParser#term}.
 	 * @param ctx the parse tree
@@ -100,4 +93,11 @@ public interface PCFVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParens(PCFParser.ParensContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Fun}
+	 * labeled alternative in {@link PCFParser#atom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFun(PCFParser.FunContext ctx);
 }
