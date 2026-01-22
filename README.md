@@ -141,6 +141,44 @@ let add = fun x -> fun y -> x + y in let inc = add 1 in inc 2
 Résultat attendu : `3`
 ![img.png](captures/rouge/currying.png)
 
+## PCF Noir
+
+### Fix simple
+
+```
+fix x 1
+```
+Résultat : `fix x`
+
+![img.png](captures/noir/fix_simple.png)
+
+### Boucle (syntaxe courte)
+
+```
+fix x x
+```
+Résultat : `fix x`
+
+![img.png](captures/noir/boucle.png)
+
+### Ifz court + Fix (Lazy)
+
+```
+ifz 0 then 1 else (fix x x)
+```
+Résultat : `1`
+
+![img.png](captures/noir/ifz_court_et_fix.png)
+
+### Factorielle (Syntaxe longue)
+
+```
+let fact = fix f fun n -> ifz n then 1 else n * f (n - 1) in fact 3
+```
+Résultat : `6`
+
+![img.png](captures/noir/factorielle.png)
+
 ---
 
 FIL A1 - 2025/2026

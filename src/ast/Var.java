@@ -1,6 +1,7 @@
 package ast;
 
 import interp.Env;
+import interp.IceCube;
 import interp.Value;
 import java.util.Optional;
 
@@ -13,12 +14,30 @@ public class Var extends Term {
 
     @Override
     public Value interp(Env e) {
-        Optional<Value> val = e.lookup(name);
+        // 1. Recherche standard
+        Optional<Value> valOpt = e.lookup(name);
 
-        if (val.isEmpty()) {
+        if (valOpt.isEmpty()) {
             throw new RuntimeException("Variable non définie : " + name);
         }
 
-        return val.get();
+        Value val = valOpt.get();
+
+        // 2. Gestion Spéciale PCF Noir (IceCube)
+        if (val instanceof IceCube) {
+            IceCube cube = (IceCube) val;
+            // On doit "dérouler" la récursion d'un niveau.
+            // On interprète le corps du fix (cube.term)
+            // Dans l'environnement capturé (cube.env) étendu avec le glaçon lui-même (cube.id -> cube)
+            Env recursiveEnv = cube.env.add(cube.id, cube);
+            return cube.term.interp(recursiveEnv);
+        }
+
+        return val;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
