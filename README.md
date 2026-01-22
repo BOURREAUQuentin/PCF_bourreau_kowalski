@@ -1,5 +1,36 @@
 # Projet - Analyseur syntaxique et interpréteur pour PCF
 
+**FIL A1 - 2025/2026**  
+**BOURREAU Quentin / KOWALSKI Damien**
+
+---
+
+## État du projet
+
+### TP1 et TP2 : Terminés
+
+- **PCF Vert** : Opérationnel
+- **PCF Bleu** : Opérationnel
+- **PCF Rouge** : Opérationnel
+- **PCF Noir** : Opérationnel
+
+Tous les niveaux de PCF sont fonctionnels avec leurs fonctionnalités respectives.
+
+### TP3 : Pas fait
+
+Nous n'avons pas implémenté le TP3 (PCF avec types) par manque de temps.
+
+### Ressources externes utilisées
+
+- **GitHub** : Utilisé pour la collaboration et le versionnage du code
+- **GitHub Copilot** : Assistance sur certains aspects techniques spécifiques :
+    - Compréhension de la structure de base du PCF et des environnements de variables
+    - Aide à la manipulation des closures
+
+L'essentiel de la logique et de l'architecture du projet a été développé par nous-mêmes.
+
+---
+
 ## PCF Vert
 
 ### Test de priorité des opérations
@@ -139,7 +170,10 @@ Résultat attendu : `2`
 let add = fun x -> fun y -> x + y in let inc = add 1 in inc 2
 ```
 Résultat attendu : `3`
+
 ![img.png](captures/rouge/currying.png)
+
+---
 
 ## PCF Noir
 
@@ -178,9 +212,3 @@ let fact = fix f fun n -> ifz n then 1 else n * f (n - 1) in fact 3
 Résultat : `6`
 
 ![img.png](captures/noir/factorielle.png)
-
----
-
-FIL A1 - 2025/2026
-
-BOURREAU Quentin / KOWALSKI Damien
