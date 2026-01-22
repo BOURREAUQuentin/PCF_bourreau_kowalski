@@ -52,13 +52,6 @@ public interface PCFVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBinOpExpr(PCFParser.BinOpExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code App}
-	 * labeled alternative in {@link PCFParser#factor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitApp(PCFParser.AppContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code SimpleFactor}
 	 * labeled alternative in {@link PCFParser#factor}.
 	 * @param ctx the parse tree
@@ -72,6 +65,20 @@ public interface PCFVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBinOpFactor(PCFParser.BinOpFactorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code App}
+	 * labeled alternative in {@link PCFParser#application}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitApp(PCFParser.AppContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SimpleApp}
+	 * labeled alternative in {@link PCFParser#application}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleApp(PCFParser.SimpleAppContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Lit}
 	 * labeled alternative in {@link PCFParser#atom}.
@@ -100,4 +107,11 @@ public interface PCFVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFun(PCFParser.FunContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Fix}
+	 * labeled alternative in {@link PCFParser#atom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFix(PCFParser.FixContext ctx);
 }

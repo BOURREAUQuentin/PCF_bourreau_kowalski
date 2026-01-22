@@ -39,20 +39,25 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
 
     @Override
     public AST visitSimpleFactor(PCFParser.SimpleFactorContext ctx) {
-        return visit(ctx.atom());
+        return visit(ctx.application());
     }
 
     @Override
     public AST visitBinOpFactor(PCFParser.BinOpFactorContext ctx) {
         OP op = OP.parseOP(ctx.OPFirst().getText());
         Term t1 = (Term) visit(ctx.factor());
-        Term t2 = (Term) visit(ctx.atom());
+        Term t2 = (Term) visit(ctx.application());
         return new BinOp(op, t1, t2);
     }
 
     @Override
+    public AST visitSimpleApp(PCFParser.SimpleAppContext ctx) {
+        return visit(ctx.atom());
+    }
+
+    @Override
     public AST visitApp(PCFParser.AppContext ctx) {
-        Term fun = (Term) visit(ctx.factor());
+        Term fun = (Term) visit(ctx.application());
         Term arg = (Term) visit(ctx.atom());
         return new App(fun, arg);
     }
@@ -78,5 +83,12 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
         String arg = ctx.ID().getText();
         Term body = (Term) visit(ctx.term());
         return new Fun(arg, body);
+    }
+
+    @Override
+    public AST visitFix(PCFParser.FixContext ctx) {
+        String id = ctx.ID().getText();
+        Term term = (Term) visit(ctx.term());
+        return new Fix(id, term);
     }
 }

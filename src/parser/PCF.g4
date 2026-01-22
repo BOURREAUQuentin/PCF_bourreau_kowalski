@@ -13,15 +13,20 @@ expr : expr OPLast factor                        # BinOpExpr
      | factor                                    # SimpleExpr
      ;
 
-factor : factor atom                             # App
-       | factor OPFirst atom                     # BinOpFactor
-       | atom                                    # SimpleFactor
+factor : factor OPFirst application              # BinOpFactor
+       | application                             # SimpleFactor
        ;
+
+application
+    : application atom                           # App
+    | atom                                       # SimpleApp
+    ;
 
 atom : LIT                                       # Lit
      | ID                                        # Var
      | '(' term ')'                              # Parens
      | FUN ID '->' term                          # Fun
+     | FIX ID term                               # Fix
      ;
 
 // --- Règles lexicales ---
@@ -33,6 +38,7 @@ THEN : 'then';
 ELSE : 'else';
 FUN  : 'fun';
 ARROW: '->';
+FIX  : 'fix';
 
 ID   : [a-z][a-zA-Z0-9]* ;
 LIT  : '0' | [1-9][0-9]* ;
