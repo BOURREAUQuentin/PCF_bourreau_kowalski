@@ -69,7 +69,47 @@ Capture du fonctionnement de l'interpréteur PCF Bleu avec l'évaluation de l'ex
 
 ## PCF Rouge
 
-A faire
+Test 1 : Fonction simple
+
+Plaintext
+fun x -> 0
+Résultat attendu : (fun x -> 0) (ou affichage de la Closure)
+
+Test 2 : Addition avec fonction (Parenthèses obligatoires !)
+
+Plaintext
+1 + (fun x -> 0)
+Résultat attendu : Erreur (ClassCastException ou RuntimeException) car on ne peut pas additionner 1 (int) et une Closure. C'est normal ! PCF Vert ne sait additionner que des entiers.
+
+Test 3 : Identité
+
+Plaintext
+fun x -> x + 1
+Résultat attendu : (fun x -> x + 1)
+
+Test 4 : Application simple
+
+Plaintext
+let z = fun x -> 0 in z 1
+Résultat attendu : 0
+
+Test 5 : Application fonctionnelle
+
+Plaintext
+let z = fun x -> 0 in z (fun x -> 0)
+(Note : j'ai ajouté des parenthèses autour de l'argument fun pour être sûr) Résultat attendu : 0
+
+Test 6 : Incrément
+
+Plaintext
+let inc = fun x -> x + 1 in inc 1
+Résultat attendu : 2
+
+Test 7 : Currying (Fonction qui renvoie une fonction)
+
+Plaintext
+let add = fun x -> fun y -> x + y in let inc = add 1 in inc 2
+Résultat attendu : 3
 
 ---
 
