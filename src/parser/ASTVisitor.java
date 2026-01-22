@@ -42,10 +42,9 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
 
     @Override
     public AST visitLet(PCFParser.LetContext ctx) {
-        // let ID = term in term
         String id = ctx.ID().getText();
-        Term definition = (Term) visit(ctx.term(0)); // partie après le =
-        Term body = (Term) visit(ctx.term(1)); // partie après le in
+        Term definition = (Term) visit(ctx.term(0));
+        Term body = (Term) visit(ctx.term(1));
         return new Let(id, definition, body);
     }
 
@@ -76,8 +75,8 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
 
     @Override
     public AST visitApp(PCFParser.AppContext ctx) {
-        Term fun = (Term) visit(ctx.factor()); // terme à gauche (la fonction)
-        Term arg = (Term) visit(ctx.atom()); // terme à droite (l'argument)
+        Term fun = (Term) visit(ctx.factor());
+        Term arg = (Term) visit(ctx.atom());
         return new App(fun, arg);
     }
 }

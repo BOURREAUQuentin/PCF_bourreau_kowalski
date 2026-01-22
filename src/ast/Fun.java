@@ -15,7 +15,6 @@ public class Fun extends Term {
 
     @Override
     public Value interp(Env e) {
-        // capture l'environnement actuel 'e'
         return new Closure(arg, body, e);
     }
 
