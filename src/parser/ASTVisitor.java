@@ -35,11 +35,8 @@ public class ASTVisitor extends PCFBaseVisitor<AST> {
         return visit(ctx.atom());
     }
 
-    // --- NOUVEAU POUR PCF BLEU ---
-
     @Override
     public AST visitVar(PCFParser.VarContext ctx) {
-        // Crée une feuille Var avec le nom de la variable
         return new Var(ctx.ID().getText());
     }
 
