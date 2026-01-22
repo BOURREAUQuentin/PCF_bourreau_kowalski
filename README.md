@@ -69,48 +69,67 @@ Capture du fonctionnement de l'interpréteur PCF Bleu avec l'évaluation de l'ex
 
 ## PCF Rouge
 
-Test 1 : Fonction simple
+### Test 1 : Fonction simple
 
-Plaintext
+```
 fun x -> 0
-Résultat attendu : (fun x -> 0) (ou affichage de la Closure)
+```
+Résultat attendu : `(fun x -> 0)`
 
-Test 2 : Addition avec fonction (Parenthèses obligatoires !)
+![capture](captures/rouge/fonction_simple.png)
 
-Plaintext
+### Test 2 : Addition avec fonction (Parenthèses obligatoires !)
+
+```
 1 + (fun x -> 0)
-Résultat attendu : Erreur (ClassCastException ou RuntimeException) car on ne peut pas additionner 1 (int) et une Closure. C'est normal ! PCF Vert ne sait additionner que des entiers.
+```
+Résultat attendu : `Erreur (ClassCastException) car on ne peut pas additionner 1 (int) et une Closure.`
 
-Test 3 : Identité
+![img.png](captures/rouge/addition_avec_fonction.png)
 
-Plaintext
+### Test 3 : Identité
+
+```
 fun x -> x + 1
-Résultat attendu : (fun x -> x + 1)
+```
+Résultat attendu : `(fun x -> x + 1)`
 
-Test 4 : Application simple
+![img.png](captures/rouge/identite.png)
 
-Plaintext
+### Test 4 : Application simple
+
+```
 let z = fun x -> 0 in z 1
-Résultat attendu : 0
+```
+Résultat attendu : `0`
 
-Test 5 : Application fonctionnelle
+![img.png](captures/rouge/application_simple.png)
 
-Plaintext
+### Test 5 : Application fonctionnelle
+
+```
 let z = fun x -> 0 in z (fun x -> 0)
-(Note : j'ai ajouté des parenthèses autour de l'argument fun pour être sûr) Résultat attendu : 0
+```
+Résultat attendu : `0`
 
-Test 6 : Incrément
+![img.png](captures/rouge/application_fonctionnelle.png)
 
-Plaintext
+### Test 6 : Incrément
+
+```
 let inc = fun x -> x + 1 in inc 1
-Résultat attendu : 2
+```
+Résultat attendu : `2`
 
-Test 7 : Currying (Fonction qui renvoie une fonction)
+![img.png](captures/rouge/increment.png)
 
-Plaintext
+### Test 7 : Currying
+
+```
 let add = fun x -> fun y -> x + y in let inc = add 1 in inc 2
-Résultat attendu : 3
-
+```
+Résultat attendu : `3`
+![img.png](captures/rouge/currying.png)
 ---
 
 FIL A1 - 2025/2026
