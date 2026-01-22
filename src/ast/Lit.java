@@ -13,7 +13,6 @@ public class Lit extends Term {
 
     @Override
     public Value interp(Env e) {
-        // Règle : un littéral s'évalue en sa valeur entière [cite: 22]
         return new IntVal(this.value);
     }
 }

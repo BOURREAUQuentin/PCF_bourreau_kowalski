@@ -1,11 +1,9 @@
 grammar PCF;
 
-// --- Règles syntaxiques ---
-
 program : term EOF ;
 
-term : 'let' ID '=' term 'in' term               # Let
-     | 'ifz' term 'then' term 'else' term        # Cond
+term : LET ID '=' term IN term                   # Let
+     | IFZ term THEN term ELSE term              # Cond
      | expr                                      # SimpleTerm
      ;
 
@@ -22,16 +20,14 @@ atom : LIT                                       # Lit
      | '(' term ')'                              # Parens
      ;
 
-// --- Règles lexicales ---
 
-// Mots-clés (définis AVANT ID pour qu'ils soient prioritaires)
 LET  : 'let';
 IN   : 'in';
 IFZ  : 'ifz';
 THEN : 'then';
 ELSE : 'else';
 
-ID   : [a-z][a-xzA-Z0-9]* ;    // Identifiants (variables, ex: x, y, var1)
+ID   : [a-z][a-xzA-Z0-9]* ;
 LIT  : '0' | [1-9][0-9]* ;
 
 OPFirst : '*' | '/' ;

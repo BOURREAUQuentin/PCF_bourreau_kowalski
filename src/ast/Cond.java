@@ -15,10 +15,8 @@ public class Cond extends Term {
 
     @Override
     public Value interp(Env e) {
-        // évalue la condition
         Value testVal = test.interp(e);
 
-        // vérifie que c'est bien un entier
         if (((IntVal) testVal).value == 0) {
             return branchTrue.interp(e);
         } else {

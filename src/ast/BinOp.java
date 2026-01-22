@@ -16,15 +16,12 @@ public class BinOp extends Term {
 
     @Override
     public Value interp(Env e) {
-        // évaluation récursive des deux opérandes
         Value v1 = term1.interp(e);
         Value v2 = term2.interp(e);
 
-        // récupération des entiers (unwrap)
         int i1 = ((IntVal) v1).value;
         int i2 = ((IntVal) v2).value;
 
-        // calcul selon l'opérateur
         int result = switch (this.op) {
             case PLUS -> i1 + i2;
             case MINUS -> i1 - i2;

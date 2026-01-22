@@ -5,8 +5,8 @@ import interp.Value;
 
 public class Let extends Term {
     public String id;
-    public Term definition; // terme à droite du =
-    public Term body; // terme après le in
+    public Term definition;
+    public Term body;
 
     public Let(String id, Term definition, Term body) {
         this.id = id;
@@ -16,13 +16,10 @@ public class Let extends Term {
 
     @Override
     public Value interp(Env e) {
-        // évalue la définition dans l'environnement actuel
         Value defVal = definition.interp(e);
 
-        // étend l'environnement avec la nouvelle variable
         Env newEnv = e.add(id, defVal);
 
-        // évalue le corps avec le nouvel environnement
         return body.interp(newEnv);
     }
 }
